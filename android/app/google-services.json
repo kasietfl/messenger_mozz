@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "274734243228",
+    "project_id": "messenger-mozz",
+    "storage_bucket": "messenger-mozz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274734243228:android:741c38b48a85a9e5107c59",
+        "android_client_info": {
+          "package_name": "com.example.messenger_mozz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv3HWyhzlcgrj5Rlua8KmGvofZ_LVINeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
