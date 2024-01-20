@@ -23,12 +23,14 @@ class BubbleMessage extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSentByUser ? AppColors.green : AppColors.lightGrey,
           borderRadius: BorderRadius.only(
-              topRight: Radius.circular(16),
-              topLeft: Radius.circular(16),
-              bottomLeft:
-                  isSentByUser ? Radius.circular(16) : Radius.circular(0),
-              bottomRight:
-                  isSentByUser ? Radius.circular(0) : Radius.circular(16)),
+              topRight: const Radius.circular(16),
+              topLeft: const Radius.circular(16),
+              bottomLeft: isSentByUser
+                  ? const Radius.circular(16)
+                  : const Radius.circular(0),
+              bottomRight: isSentByUser
+                  ? const Radius.circular(0)
+                  : const Radius.circular(16)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -38,13 +40,13 @@ class BubbleMessage extends StatelessWidget {
               style: const TextStyle(
                   color: AppColors.black, fontWeight: FontWeight.w500),
             ),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             Text(
               time,
               style: const TextStyle(
-                  color: AppColors.black,
+                  color: AppColors.darkGreen,
                   fontWeight: FontWeight.w500,
-                  fontSize: 12),
+                  fontSize: 10),
             ),
           ],
         ),

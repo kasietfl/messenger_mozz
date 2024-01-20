@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:messenger_mozz/data/services/firestore_service.dart';
 import 'package:messenger_mozz/data/services/message_service.dart';
 import 'package:messenger_mozz/data/model/user_model.dart';
@@ -63,22 +64,18 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         centerTitle: false,
         title: buildAppBarTitle(),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+            icon: const Icon(Icons.arrow_back_ios_new_sharp)),
       ),
       body: Column(
         children: [
-          // BubbleMessage(
-          //   message: 'Hello, how are you?',
-          //   isSentByUser: true,
-          //   time: "21:09",
-          // ),
           Expanded(
             child: StreamBuilder(
               stream: FirestoreService.getMessages(widget.user.id),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                // if (!snapshot.hasData) {
-                //   return const Center(child: CircularProgressIndicator());
-                // }
-
                 List<DocumentSnapshot>? docs = snapshot.data?.docs;
                 List<Message> messages = (docs ?? []).map((doc) {
                   Map<String, dynamic> data =
@@ -97,22 +94,26 @@ class _ChatScreenState extends State<ChatScreen> {
 
                 return ListView.builder(
                   itemCount: messages.length,
+                  reverse: true,
                   itemBuilder: (context, index) {
-                    bool showDateDivider = index == 0 ||
-                        !isSameDay(messages[index].timestamp,
-                            messages[index - 1].timestamp);
+                    int reversedIndex = messages.length - 1 - index;
+                    bool showDateDivider = reversedIndex == 0 ||
+                        !isSameDay(messages[reversedIndex].timestamp,
+                            messages[reversedIndex - 1].timestamp);
+
                     return Column(
                       children: [
                         if (showDateDivider)
                           DateDivider(
-                            date: formatDateTime(messages[index].timestamp),
+                            date: formatDateTime(
+                                messages[reversedIndex].timestamp),
                           ),
                         BubbleMessage(
-                          message: messages[index].text,
-                          isSentByUser:
-                              messages[index].sender.id == widget.user.id,
-                          time:
-                              "${messages[index].timestamp.hour}:${messages[index].timestamp.minute}",
+                          message: messages[reversedIndex].text,
+                          isSentByUser: messages[reversedIndex].sender.id ==
+                              widget.user.id,
+                          time: DateFormat("HH:mm")
+                              .format(messages[reversedIndex].timestamp),
                         ),
                       ],
                     );
@@ -121,7 +122,6 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-
           const Divider(
             color: AppColors.lightGrey,
           ),
